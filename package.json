@@ -2,7 +2,6 @@
   "name": "@kutaloweb/merng",
   "version": "0.1.0-alpha.0",
   "description": "Isomorphic web app boilerplate (Node.js, Express, GraphQL, React.js, Babel, PostCSS, Webpack, Browsersync)",
-  "private": true,
   "engines": {
     "node": ">=6.13.1",
     "npm": ">=3.10.10"
