@@ -23,6 +23,9 @@ module.exports = {
       `http://localhost:${process.env.PORT || 3000}`,
   },
 
+  // Database
+  mongoURL: process.env.MONGO_URL || 'mongodb://localhost:27017/merng-starter',
+
   // Web analytics
   analytics: {
     // https://analytics.google.com/

@@ -34,6 +34,7 @@ global.navigator = global.navigator || {};
 global.navigator.userAgent = global.navigator.userAgent || 'all';
 
 const app = express();
+const mongoose = require('mongoose');
 
 //
 // If you are using proxy from external machine, you can set TRUST_PROXY env
@@ -174,6 +175,19 @@ app.use((err, req, res, next) => {
   );
   res.status(err.status || 500);
   res.send(`<!doctype html>${html}`);
+});
+
+//
+// Connect to Mongodb
+// -----------------------------------------------------------------------------
+mongoose.connect(config.mongoURL, {
+  useMongoClinet: true,
+});
+const db = mongoose.connection;
+db.on('error', error => {
+  console.error('Failed to connect to Mongoose');
+  console.error('Please make sure Mongodb is installed and running!');
+  throw error;
 });
 
 //
