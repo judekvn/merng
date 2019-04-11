@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+delete mongoose.connection.models.UserClaim;
+
 const { Schema } = mongoose;
 
 const userClimeSchema = new Schema({

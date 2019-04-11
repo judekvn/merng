@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+delete mongoose.connection.models.UserProfile;
+
 const { Schema } = mongoose;
 
 const userProfileSchema = new Schema({
