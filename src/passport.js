@@ -71,8 +71,7 @@ passport.use(
             name: loginName,
             key: profile.id,
           }).populate('user', 'id email');
-          // userLoggedIn with id and email User.find().select('id email')?
-          if (userLoggedIn) {
+          if (userLoggedIn.user) {
             done(null, {
               id: userLoggedIn.user.id,
               email: userLoggedIn.user.email,
