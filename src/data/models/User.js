@@ -10,6 +10,4 @@ const userSchema = new Schema({
   date: { type: Date, default: Date.now },
 });
 
-delete mongoose.connection.models.User;
-
 export default mongoose.model('User', userSchema);

@@ -4,14 +4,14 @@ export const schema = [
   `
   # A user stored in the local database
   type DatabaseUser {
-    _id: String
+    _id: ID
     email: String
     emailConfirmed: String
     date: String
   }
 
   type DatabaseUserLogin {
-    _id: String
+    _id: ID
     name: String
     key: String
     date: String
@@ -19,7 +19,7 @@ export const schema = [
   }
 
   type DatabaseUserClaim {
-    _id: String
+    _id: ID
     type: String
     value: String
     date: String
@@ -27,7 +27,7 @@ export const schema = [
   }
 
   type DatabaseUserProfile {
-    _id: String
+    _id: ID
     displayName: String
     picture: String
     gender: String
@@ -55,7 +55,7 @@ export const queries = [
 export const resolvers = {
   RootQuery: {
     async databaseGetAllUsers() {
-      const users = await User.findAll();
+      const users = await User.find();
       return users;
     },
     async databaseGetUser(parent, { email }) {
