@@ -1,17 +1,18 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import withStyles from 'isomorphic-style-loader/withStyles';
 import s from './ErrorPage.css';
 
-class ErrorPage extends React.Component {
-  static propTypes = {
-    error: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired,
-      stack: PropTypes.string.isRequired,
-    }),
-  };
+type PropTypes = {|
+  error?: {
+    name: string,
+    message: string,
+    stack: string,
+  },
+|};
 
+class ErrorPage extends React.Component<PropTypes> {
   static defaultProps = {
     error: null,
   };

@@ -3,18 +3,17 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import expressJwt, { UnauthorizedError as Jwt401Error } from 'express-jwt';
-import { graphql } from 'graphql';
-import expressGraphQL from 'express-graphql';
 import jwt from 'jsonwebtoken';
-import nodeFetch from 'node-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
+import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
+import { getDataFromTree } from 'react-apollo';
+import createApolloClient from './core/createApolloClient';
 import App from './components/App';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.css';
-import createFetch from './createFetch';
 import passport from './passport';
 import router from './router';
 import schema from './data/schema';
@@ -101,15 +100,17 @@ app.get(
 //
 // Register API middleware
 // -----------------------------------------------------------------------------
-app.use(
-  '/graphql',
-  expressGraphQL(req => ({
-    schema,
-    graphiql: __DEV__,
-    rootValue: { request: req },
-    pretty: __DEV__,
-  })),
-);
+// https://github.com/graphql/express-graphql#options
+
+const server = new ApolloServer({
+  ...schema,
+  uploads: false,
+  introspection: __DEV__,
+  playground: __DEV__,
+  debug: __DEV__,
+  context: ({ req }) => ({ req }),
+});
+server.applyMiddleware({ app });
 
 //
 // Register server-side rendering middleware
@@ -125,21 +126,25 @@ app.get('*', async (req, res, next) => {
       styles.forEach(style => css.add(style._getCss()));
     };
 
-    // Universal HTTP client
-    const fetch = createFetch(nodeFetch, {
-      baseUrl: config.api.serverUrl,
-      cookie: req.headers.cookie,
-      schema,
-      graphql,
-    });
+    const apolloClient = createApolloClient(
+      {
+        schema: makeExecutableSchema(schema),
+        // This is a context consumed in GraphQL Resolvers
+        context: { req },
+      },
+      {
+        user: req.user || null,
+      },
+    );
 
     const initialState = {
       user: req.user || null,
     };
 
     const store = configureStore(initialState, {
-      fetch,
+      cookie: req.headers.cookie,
       // I should not use `history` on server.. but how I do redirection? follow universal-router
+      history: null,
     });
 
     store.dispatch(
@@ -152,8 +157,6 @@ app.get('*', async (req, res, next) => {
     // Global (context) variables that can be easily accessed from any React component
     // https://facebook.github.io/react/docs/context.html
     const context = {
-      insertCss,
-      fetch,
       // The twins below are wild, be careful!
       pathname: req.path,
       query: req.query,
@@ -170,9 +173,13 @@ app.get('*', async (req, res, next) => {
     }
 
     const data = { ...route };
-    data.children = ReactDOM.renderToString(
-      <App context={context}>{route.component}</App>,
+    const rootComponent = (
+      <App context={context} client={apolloClient} insertCss={insertCss}>
+        {route.component}
+      </App>
     );
+    await getDataFromTree(rootComponent);
+    data.children = await ReactDOM.renderToString(rootComponent);
     data.styles = [{ id: 'css', cssText: [...css].join('') }];
 
     const scripts = new Set();
@@ -191,6 +198,8 @@ app.get('*', async (req, res, next) => {
     data.app = {
       apiUrl: config.api.clientUrl,
       state: context.store.getState(),
+      // To restore apollo cache in client.js
+      cache: apolloClient.extract(),
     };
 
     const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);

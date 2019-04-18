@@ -1,5 +1,7 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
+import type { Node } from 'react';
 import history from '../../history';
 
 function isLeftClickEvent(event) {
@@ -10,42 +12,36 @@ function isModifiedEvent(event) {
   return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }
 
-class Link extends React.Component {
-  static propTypes = {
-    to: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-    onClick: PropTypes.func,
-  };
+type PropTypes = {
+  to: string,
+  onClick?: Object => void,
+  children?: Node,
+  className?: string,
+};
 
-  static defaultProps = {
-    onClick: null,
-  };
+const Link = ({ to, children, onClick, ...restProps }: PropTypes) => (
+  <a
+    href={to}
+    {...restProps}
+    onClick={(event: any) => {
+      if (onClick) {
+        onClick(event);
+      }
 
-  handleClick = event => {
-    if (this.props.onClick) {
-      this.props.onClick(event);
-    }
+      if (isModifiedEvent(event) || !isLeftClickEvent(event)) {
+        return;
+      }
 
-    if (isModifiedEvent(event) || !isLeftClickEvent(event)) {
-      return;
-    }
+      if (event.defaultPrevented === true) {
+        return;
+      }
 
-    if (event.defaultPrevented === true) {
-      return;
-    }
-
-    event.preventDefault();
-    history.push(this.props.to);
-  };
-
-  render() {
-    const { to, children, ...props } = this.props;
-    return (
-      <a href={to} {...props} onClick={this.handleClick}>
-        {children}
-      </a>
-    );
-  }
-}
+      event.preventDefault();
+      history.push(to);
+    }}
+  >
+    {children}
+  </a>
+);
 
 export default Link;

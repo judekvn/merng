@@ -37,6 +37,15 @@ module.exports = {
       },
     ],
 
+    // Allow only special identifiers
+    // https://eslint.org/docs/rules/no-underscore-dangle
+    'no-underscore-dangle': [
+      'error',
+      {
+        allow: ['__typename'],
+      },
+    ],
+
     // Prefer destructuring from arrays and objects
     // http://eslint.org/docs/rules/prefer-destructuring
     'prefer-destructuring': [
@@ -81,15 +90,8 @@ module.exports = {
 
     'react/forbid-prop-types': 'off',
     'react/destructuring-assignment': 'off',
-  },
 
-  settings: {
-    // Allow absolute paths in imports, e.g. import Button from 'components/Button'
-    // https://github.com/benmosher/eslint-plugin-import/tree/master/resolvers
-    'import/resolver': {
-      node: {
-        moduleDirectory: ['node_modules', 'src'],
-      },
-    },
+    // PropTypes and states are typed by Flow basically, but Flow cannot type defaultProps.
+    'react/require-default-props': 'off',
   },
 };

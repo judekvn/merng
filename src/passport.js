@@ -64,17 +64,19 @@ passport.use(
             done(null, {
               id: user.id,
               email: user.email,
+              __typename: 'Current User',
             });
           }
         } else {
-          const userLoggedIn = await UserLogin.findOne({
+          const userLoggedInBefore = await UserLogin.findOne({
             name: loginName,
             key: profile.id,
           }).populate('user', 'id email');
-          if (userLoggedIn.user) {
+          if (userLoggedInBefore) {
             done(null, {
-              id: userLoggedIn.user.id,
-              email: userLoggedIn.user.email,
+              id: userLoggedInBefore.user.id,
+              email: userLoggedInBefore.user.email,
+              __typename: 'Current user',
             });
           } else {
             const userSameEmail = await User.findOne({
@@ -109,6 +111,7 @@ passport.use(
               done(null, {
                 id: user.id,
                 email: user.email,
+                __typename: 'CurrentUser',
               });
             }
           }

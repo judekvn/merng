@@ -1,59 +1,29 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Provider as ReduxProvider } from 'react-redux';
+import type { Node } from 'react';
+import { ApolloProvider } from 'react-apollo';
+import StyleContext from 'isomorphic-style-loader/StyleContext';
+import type { AppContextTypes } from '../context';
+import AppContext from '../context';
 
-const ContextType = {
-  // Enables critical path CSS rendering
-  // https://github.com/kriasoft/isomorphic-style-loader
-  insertCss: PropTypes.func.isRequired,
-  // Universal HTTP client
-  fetch: PropTypes.func.isRequired,
-  pathname: PropTypes.string.isRequired,
-  query: PropTypes.object,
-  // Integrate Redux
-  // http://redux.js.org/docs/basics/UsageWithReact.html
-  ...ReduxProvider.childContextTypes,
-};
+type Props = {|
+  insertCss: Function,
+  client: Object,
+  context: AppContextTypes,
+  children: Node,
+|};
 
-/**
- * The top-level React component setting context (global) variables
- * that can be accessed from all the child components.
- *
- * https://facebook.github.io/react/docs/context.html
- *
- * Usage example:
- *
- *   const context = {
- *     history: createBrowserHistory(),
- *     store: createStore(),
- *   };
- *
- *   ReactDOM.render(
- *     <App context={context}>
- *       <Layout>
- *         <LandingPage />
- *       </Layout>
- *     </App>,
- *     container,
- *   );
- */
-class App extends React.PureComponent {
-  static propTypes = {
-    context: PropTypes.shape(ContextType).isRequired,
-    children: PropTypes.element.isRequired,
-  };
-
-  static childContextTypes = ContextType;
-
-  getChildContext() {
-    return this.props.context;
-  }
-
-  render() {
-    // NOTE: If you need to add or modify header, footer etc. of the app,
-    // please do that inside the Layout component.
-    return React.Children.only(this.props.children);
-  }
-}
+const App = ({ client, insertCss, context, children }: Props) => (
+  // NOTE: If you need to add or modify header, footer etc. of the app,
+  // please do that inside the Layout component.
+  <ApolloProvider client={client}>
+    <AppContext.Provider value={context}>
+      <StyleContext.Provider value={{ insertCss }}>
+        {children}
+      </StyleContext.Provider>
+    </AppContext.Provider>
+  </ApolloProvider>
+);
 
 export default App;
