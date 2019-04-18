@@ -64,7 +64,7 @@ passport.use(
             done(null, {
               id: user.id,
               email: user.email,
-              __typename: 'Current User',
+              __typename: 'CurrentUser',
             });
           }
         } else {
@@ -76,7 +76,7 @@ passport.use(
             done(null, {
               id: userLoggedInBefore.user.id,
               email: userLoggedInBefore.user.email,
-              __typename: 'Current user',
+              __typename: 'CurrentUser',
             });
           } else {
             const userSameEmail = await User.findOne({
