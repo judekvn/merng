@@ -14,9 +14,6 @@ class Login extends React.Component<PropTypes> {
       <div className={s.root}>
         <div className={s.container}>
           <h1>{this.props.title}</h1>
-          <p className={s.lead}>
-            Log in with your username or company email address.
-          </p>
           <div className={s.formGroup}>
             <a className={s.facebook} href="/login/facebook">
               <svg
@@ -34,13 +31,13 @@ class Login extends React.Component<PropTypes> {
           <strong className={s.lineThrough}>OR</strong>
           <form method="post">
             <div className={s.formGroup}>
-              <label className={s.label} htmlFor="usernameOrEmail">
-                Username or email address:
+              <label className={s.label} htmlFor="email">
+                Email address:
                 <input
                   className={s.input}
-                  id="usernameOrEmail"
+                  id="email"
                   type="text"
-                  name="usernameOrEmail"
+                  name="email"
                   autoFocus // eslint-disable-line jsx-a11y/no-autofocus
                 />
               </label>

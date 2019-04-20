@@ -29,12 +29,18 @@ export const schema = [
   type DatabaseUserProfile {
     _id: ID
     displayName: String
+    password: String
     picture: String
     gender: String
     location: String
     website: String
     date: String
     user: String
+  }
+  
+  type SignUpResponse {
+    success: Boolean!
+    user: DatabaseUser
   }
 `,
 ];

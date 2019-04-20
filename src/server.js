@@ -108,7 +108,7 @@ const server = new ApolloServer({
   introspection: __DEV__,
   playground: __DEV__,
   debug: __DEV__,
-  context: ({ req }) => ({ req }),
+  context: ({ req, res }) => ({ req, res }),
 });
 server.applyMiddleware({ app });
 

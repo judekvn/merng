@@ -8,7 +8,6 @@ import withStyles from 'isomorphic-style-loader/withStyles';
 import normalizeCss from 'normalize.css';
 import s from './Layout.css';
 import Header from '../Header';
-import Feedback from '../Feedback';
 import Footer from '../Footer';
 
 type PropTypes = {|
@@ -19,7 +18,6 @@ const Layout = (props: PropTypes) => (
   <div>
     <Header />
     {props.children}
-    <Feedback />
     <Footer />
   </div>
 );

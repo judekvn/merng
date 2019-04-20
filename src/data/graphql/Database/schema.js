@@ -13,12 +13,11 @@ import {
 
 /** * Mutations ** */
 import {
-  schema as CreateUserInput,
   mutation as CreateUser,
   resolvers as CreateUserResolver,
 } from './users/CreateUser';
 
-export const schema = [...GetAllUsers, ...CreateUserInput];
+export const schema = [...GetAllUsers];
 
 export const queries = [...GetAllUsersQueries, ...GetLoggedInUserQueries];
 
