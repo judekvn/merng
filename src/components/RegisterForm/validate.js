@@ -11,6 +11,8 @@ const validate = values => {
     errors.password = 'Password required';
   } else if (values.password.length < 6) {
     errors.password = 'Password must have at least 6 characters';
+  } else if (values.password !== values.confirmPassword) {
+    errors.confirmPassword = 'Passwords must match';
   }
 
   return errors;

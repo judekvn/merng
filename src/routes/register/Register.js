@@ -10,6 +10,7 @@ import history from '../../history';
 
 type PropTypes = {|
   title: string,
+  mutate: Function,
 |};
 
 class Register extends React.Component<PropTypes> {
