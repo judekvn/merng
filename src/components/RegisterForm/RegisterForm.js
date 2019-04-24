@@ -12,11 +12,8 @@ type PropTypes = {|
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} type={type} placeholder={label} className={s.input} />
-      {touched && error && <div className={s.invalid}>{error}</div>}
-    </div>
+    <input {...input} type={type} className={s.input} />
+    {touched && error && <div className={s.invalid}>{error}</div>}
   </div>
 );
 
