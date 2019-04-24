@@ -58,3 +58,10 @@
   border-color: #0074c2;
   box-shadow: 0 0 8px rgba(0, 116, 194, 0.6);
 }
+
+.invalid {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}

@@ -10,16 +10,25 @@ type PropTypes = {|
   handleSubmit: Function,
 |};
 
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
+  <div>
+    <label>{label}</label>
+    <div>
+      <input {...input} type={type} placeholder={label} className={s.input} />
+      {touched && error && <div className={s.invalid}>{error}</div>}
+    </div>
+  </div>
+);
+
 const RegisterForm = ({ handleSubmit }: PropTypes) => (
   <form onSubmit={handleSubmit}>
     <div className={s.formGroup}>
       <label className={s.label} htmlFor="email">
         Email address:
         <Field
-          className={s.input}
           id="email"
           type="text"
-          component="input"
+          component={renderField}
           name="email"
           autoFocus // eslint-disable-line jsx-a11y/no-autofocus
         />
@@ -29,11 +38,10 @@ const RegisterForm = ({ handleSubmit }: PropTypes) => (
       <label className={s.label} htmlFor="password">
         Password:
         <Field
-          className={s.input}
           id="password"
           type="password"
           name="password"
-          component="input"
+          component={renderField}
         />
       </label>
     </div>
@@ -41,11 +49,10 @@ const RegisterForm = ({ handleSubmit }: PropTypes) => (
       <label className={s.label} htmlFor="confirmPassword">
         Confirm Password:
         <Field
-          className={s.input}
           id="confirmPassword"
           type="password"
           name="confirmPassword"
-          component="input"
+          component={renderField}
         />
       </label>
     </div>
