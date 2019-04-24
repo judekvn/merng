@@ -8,6 +8,7 @@ import validate from './validate';
 
 type PropTypes = {|
   handleSubmit: Function,
+  submissionError: string,
 |};
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
@@ -17,7 +18,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
   </div>
 );
 
-const RegisterForm = ({ handleSubmit }: PropTypes) => (
+const RegisterForm = ({ handleSubmit, submissionError }: PropTypes) => (
   <form onSubmit={handleSubmit}>
     <div className={s.formGroup}>
       <label className={s.label} htmlFor="email">
@@ -29,6 +30,7 @@ const RegisterForm = ({ handleSubmit }: PropTypes) => (
           name="email"
           autoFocus // eslint-disable-line jsx-a11y/no-autofocus
         />
+        {submissionError && <div className={s.invalid}>{submissionError}</div>}
       </label>
     </div>
     <div className={s.formGroup}>

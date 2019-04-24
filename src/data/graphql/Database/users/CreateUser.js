@@ -21,8 +21,11 @@ export const resolvers = {
       const lookupUser = await User.findOne({ email: args.email });
 
       if (lookupUser) {
-        // eslint-disable-next-line no-throw-literal
-        throw 'User already exists!';
+        return {
+          success: false,
+          error: 'User already exists!',
+          user: lookupUser,
+        };
       }
 
       // Create new user with profile in database
@@ -35,11 +38,15 @@ export const resolvers = {
       if (user) {
         return {
           success: true,
+          error: '',
           user,
         };
       }
+
       return {
-        status: 'failed',
+        success: false,
+        error: 'Something went wrong',
+        user: null,
       };
     },
   },

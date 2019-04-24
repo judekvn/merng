@@ -40,6 +40,7 @@ export const schema = [
   
   type SignUpResponse {
     success: Boolean!
+    error: String
     user: DatabaseUser
   }
 `,

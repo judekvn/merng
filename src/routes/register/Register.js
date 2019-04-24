@@ -14,6 +14,8 @@ type PropTypes = {|
 |};
 
 class Register extends React.Component<PropTypes> {
+  state = { error: '' };
+
   submit = async values => {
     const { email, password } = values;
 
@@ -21,11 +23,13 @@ class Register extends React.Component<PropTypes> {
       variables: { email, password },
     });
 
-    const { success, user } = response.data.databaseCreateUser;
+    const { success, user, error } = response.data.databaseCreateUser;
 
     if (success) {
       console.log(user);
       history.push('/login');
+    } else {
+      this.setState({ error });
     }
   };
 
@@ -34,7 +38,10 @@ class Register extends React.Component<PropTypes> {
       <div className={s.root}>
         <div className={s.container}>
           <h1>{this.props.title}</h1>
-          <RegisterForm onSubmit={this.submit} />
+          <RegisterForm
+            onSubmit={this.submit}
+            submissionError={this.state.error}
+          />
         </div>
       </div>
     );
@@ -45,6 +52,7 @@ const signUpMutation = gql`
   mutation($email: String!, $password: String!) {
     databaseCreateUser(email: $email, password: $password) {
       success
+      error
       user {
         _id
         email
