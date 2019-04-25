@@ -4,13 +4,13 @@ import Login from './Login';
 
 const title = 'Log In';
 
-function action() {
+function action({ store }) {
   return {
     chunks: ['login'],
     title,
     component: (
       <Layout>
-        <Login title={title} />
+        <Login title={title} store={store} />
       </Layout>
     ),
   };

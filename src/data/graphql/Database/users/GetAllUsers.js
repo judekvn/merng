@@ -43,6 +43,12 @@ export const schema = [
     error: String
     user: DatabaseUser
   }
+  
+  type LoginResponse{
+    success: Boolean!
+    error: String
+    user: DatabaseUser
+  }
 `,
 ];
 

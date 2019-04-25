@@ -2,13 +2,39 @@
 
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/withStyles';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 import s from './Login.css';
+import LoginForm from '../../components/LoginForm';
+import history from '../../history';
+import { userLogin } from '../../actions/user';
 
-type PropTypes = {
+type PropTypes = {|
   title: string,
-};
+  mutate: Function,
+  store: Object,
+|};
 
 class Login extends React.Component<PropTypes> {
+  state = { error: '' };
+
+  submit = async values => {
+    const { email, password } = values;
+
+    const response = await this.props.mutate({
+      variables: { email, password },
+    });
+
+    const { success, user, error } = response.data.databaseLoginUser;
+
+    if (success) {
+      this.props.store.dispatch(userLogin(user));
+      history.push('/');
+    } else {
+      this.setState({ error });
+    }
+  };
+
   render() {
     return (
       <div className={s.root}>
@@ -29,40 +55,29 @@ class Login extends React.Component<PropTypes> {
             </a>
           </div>
           <strong className={s.lineThrough}>OR</strong>
-          <form method="post">
-            <div className={s.formGroup}>
-              <label className={s.label} htmlFor="email">
-                Email address:
-                <input
-                  className={s.input}
-                  id="email"
-                  type="text"
-                  name="email"
-                  autoFocus // eslint-disable-line jsx-a11y/no-autofocus
-                />
-              </label>
-            </div>
-            <div className={s.formGroup}>
-              <label className={s.label} htmlFor="password">
-                Password:
-                <input
-                  className={s.input}
-                  id="password"
-                  type="password"
-                  name="password"
-                />
-              </label>
-            </div>
-            <div className={s.formGroup}>
-              <button className={s.button} type="submit">
-                Log in
-              </button>
-            </div>
-          </form>
+          <LoginForm
+            onSubmit={this.submit}
+            submissionError={this.state.error}
+          />
         </div>
       </div>
     );
   }
 }
 
-export default withStyles(s)(Login);
+const loginMutation = gql`
+  mutation($email: String!, $password: String!) {
+    databaseLoginUser(email: $email, password: $password) {
+      success
+      error
+      user {
+        _id
+        email
+      }
+    }
+  }
+`;
+
+const loginWithData = graphql(loginMutation)(Login);
+
+export default withStyles(s)(loginWithData);

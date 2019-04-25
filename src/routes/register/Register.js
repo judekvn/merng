@@ -26,7 +26,6 @@ class Register extends React.Component<PropTypes> {
     const { success, user, error } = response.data.databaseCreateUser;
 
     if (success) {
-      console.log(user);
       history.push('/login');
     } else {
       this.setState({ error });
