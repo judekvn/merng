@@ -2,12 +2,12 @@
 
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/withStyles';
-import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import s from './Login.css';
 import LoginForm from '../../components/LoginForm';
 import history from '../../history';
 import { userLogin } from '../../actions/user';
+import loginMutation from './login.graphql';
 
 type PropTypes = {|
   title: string,
@@ -64,19 +64,6 @@ class Login extends React.Component<PropTypes> {
     );
   }
 }
-
-const loginMutation = gql`
-  mutation($email: String!, $password: String!) {
-    databaseLoginUser(email: $email, password: $password) {
-      success
-      error
-      user {
-        _id
-        email
-      }
-    }
-  }
-`;
 
 const loginWithData = graphql(loginMutation)(Login);
 

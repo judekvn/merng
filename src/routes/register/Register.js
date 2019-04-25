@@ -1,12 +1,12 @@
 // @flow
 
 import React from 'react';
-import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import withStyles from 'isomorphic-style-loader/withStyles';
 import s from './Register.css';
 import RegisterForm from '../../components/RegisterForm';
 import history from '../../history';
+import signUpMutation from './register.graphql';
 
 type PropTypes = {|
   title: string,
@@ -46,19 +46,6 @@ class Register extends React.Component<PropTypes> {
     );
   }
 }
-
-const signUpMutation = gql`
-  mutation($email: String!, $password: String!) {
-    databaseCreateUser(email: $email, password: $password) {
-      success
-      error
-      user {
-        _id
-        email
-      }
-    }
-  }
-`;
 
 const signUpWithData = graphql(signUpMutation)(Register);
 
