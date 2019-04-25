@@ -20,16 +20,21 @@ import {
   mutation as LoginUser,
   resolvers as LoginResolver,
 } from './users/AuthUser';
+import {
+  mutation as LogoutUser,
+  resolvers as LogoutResolver,
+} from './users/LogoutUser';
 
 export const schema = [...GetAllUsers];
 
 export const queries = [...GetAllUsersQueries, ...GetLoggedInUserQueries];
 
-export const mutations = [...CreateUser, ...LoginUser];
+export const mutations = [...CreateUser, ...LoginUser, ...LogoutUser];
 
 export const resolvers = merge(
   GetAllUsersResolver,
   GetLoggedInUserResolver,
   CreateUserResolver,
   LoginResolver,
+  LogoutResolver,
 );

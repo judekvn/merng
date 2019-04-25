@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-import { USER_LOGIN } from '../constants';
+import { USER_LOGIN, USER_LOGOUT } from '../constants';
 
 export function userLogin(user) {
   return {
@@ -8,5 +8,11 @@ export function userLogin(user) {
     payload: {
       ...user,
     },
+  };
+}
+
+export function userLogout() {
+  return {
+    type: USER_LOGOUT,
   };
 }

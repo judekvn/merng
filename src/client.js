@@ -31,6 +31,7 @@ const context = {
   // http://redux.js.org/docs/basics/UsageWithReact.html
   store: configureStore(window.App.state, { history }),
   storeSubscription: null,
+  client: apolloClient,
 };
 
 const container = document.getElementById('app');

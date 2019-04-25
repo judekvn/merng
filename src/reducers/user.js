@@ -1,4 +1,4 @@
-import { USER_LOGIN } from '../constants';
+import { USER_LOGIN, USER_LOGOUT } from '../constants';
 
 export default function user(state = {}, action) {
   switch (action.type) {
@@ -7,6 +7,8 @@ export default function user(state = {}, action) {
         ...state,
         ...action.payload,
       };
+    case USER_LOGOUT:
+      return null;
     default:
       return state;
   }
