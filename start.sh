@@ -4,3 +4,4 @@ cd /var/www/advanced-merng-starter
 yarn run build
 # Production
 # yarn run build -- --release
+node build/server.js
