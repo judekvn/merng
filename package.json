@@ -1,6 +1,6 @@
 {
   "name": "@kutaloweb/merng",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Isomorphic web app boilerplate (Node.js, Express, GraphQL, React.js, Babel, PostCSS, Webpack, Browsersync)",
   "engines": {
     "node": ">=6.13.1",
@@ -74,8 +74,6 @@
     "mongoose": "^5.4.22",
     "node-fetch": "^2.3.0",
     "normalize.css": "^8.0.1",
-    "passport": "^0.4.0",
-    "passport-facebook": "^2.1.1",
     "pretty-error": "^2.1.1",
     "query-string": "^6.4.0",
     "react": "^16.8.4",
