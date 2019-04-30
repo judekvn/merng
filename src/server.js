@@ -79,7 +79,7 @@ app.use(passport.initialize());
 app.get(
   '/login/facebook',
   passport.authenticate('facebook', {
-    scope: ['email', 'user_location'],
+    scope: ['email'],
     session: false,
   }),
 );
