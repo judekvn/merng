@@ -3,12 +3,7 @@ import { from } from 'apollo-link';
 import { onError } from 'apollo-link-error';
 import { HttpLink } from 'apollo-link-http';
 import apolloLogger from 'apollo-link-logger';
-import gql from 'graphql-tag';
 import createCache from './createCache';
-import {
-  resolvers as clientResolvers,
-  schema as clientSchema,
-} from '../../data/graphql/OnMemoryState/schema';
 
 export default function createApolloClient() {
   // Restore cache defaults to make the same one in server.js
@@ -34,8 +29,6 @@ export default function createApolloClient() {
   return new ApolloClient({
     link,
     cache,
-    typeDefs: gql(clientSchema),
-    resolvers: clientResolvers,
     queryDeduplication: true,
     connectToDevTools: true,
   });

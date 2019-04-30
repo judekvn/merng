@@ -16,9 +16,6 @@ const Navigation = ({ user, logout }: PropTypes) => (
     <Link className={s.link} to="/about">
       About
     </Link>
-    <Link className={s.link} to="/contact">
-      Contact
-    </Link>
     <span className={s.spacer}> | </span>
     {user ? (
       <span>

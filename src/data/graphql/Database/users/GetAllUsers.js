@@ -10,22 +10,6 @@ export const schema = [
     date: String
   }
 
-  type DatabaseUserLogin {
-    _id: ID
-    name: String
-    key: String
-    date: String
-    user: String
-  }
-
-  type DatabaseUserClaim {
-    _id: ID
-    type: String
-    value: String
-    date: String
-    user: String
-  }
-
   type DatabaseUserProfile {
     _id: ID
     displayName: String
